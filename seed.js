@@ -16,7 +16,7 @@ async function createAdmin() {
     const passwordHash = await bcrypt.hash("asdfGG", 12);
 
     const newUser = {
-      email: "abirkhan54278@gmail.com", // তোর নিজের ইমেইল দিস ওটিপি টেস্টের জন্য
+      email: "nmhasan.33@gmail.com", // তোর নিজের ইমেইল দিস ওটিপি টেস্টের জন্য
       password: passwordHash,
       role: "admin",
       currentOtp: null,
