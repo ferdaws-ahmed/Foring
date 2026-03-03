@@ -1,5 +1,6 @@
-import DashboardContainer from "@/components/dashboard/DashboardContainer";
+import AdminDashboardParent from "@/components/dashboard/AdminDashboardParent";
+
 
 export default function DashboardPage() {
-  return <DashboardContainer />;
+  return <AdminDashboardParent />;
 }

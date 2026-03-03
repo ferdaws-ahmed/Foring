@@ -2,102 +2,138 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Logo from "@/components/ui/Logo";
 import toast, { Toaster } from "react-hot-toast";
+import ColorGridSecurity from "./ColorSecurity";
+import MasterKeyModal from "./MasterKey";
 
-export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginPage() {
+  const [step, setStep] = useState("credentials"); 
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [otp, setOtp] = useState("");
+  const [colorSequence, setColorSequence] = useState(""); // নতুন স্টেট: কালার আইডিগুলো রাখার জন্য
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handlePreCheck = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    const loginToast = toast.loading("Verifying credentials...");
-
     try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      const res = await fetch("/api/auth/pre-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData }),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Unknown Operator");
 
-      if (res.error) {
-        toast.error("Access Denied! Check Email or Password", { id: loginToast });
-        setLoading(false);
-      } else {
-        toast.success("Login Successful! Redirecting...", { id: loginToast });
-        
-        // ড্যাশবোর্ডে পাঠানোর আগে একটু ডিলে যাতে টোস্ট দেখা যায়
-        setTimeout(() => {
-          router.push("/dashboard");
-          router.refresh();
-        }, 1000);
-      }
+      setRole(data.role);
+      setStep("2fa"); 
+      toast.success(`Access Code Sent to ${data.role.toUpperCase()} Email`);
     } catch (err) {
-      toast.error("System Error! Try again later", { id: loginToast });
+      toast.error(err.message);
+    } finally {
       setLoading(false);
     }
   };
 
+  const handleOTPVerify = async (e) => {
+    e.preventDefault();
+    if (role === "admin") {
+      setStep("color_grid"); 
+    } else {
+      completeAuth(); 
+    }
+  };
+
+  const completeAuth = async (finalData = {}) => {
+    setLoading(true);
+    const res = await signIn("credentials", {
+      ...formData,
+      otp,
+      // কালার সিকোয়েন্স এবং মাস্টার কি দুটোই ব্যাকএন্ডে পাঠানো হচ্ছে
+      colorSequence: colorSequence || "", 
+      masterKey: finalData.masterKey || "",
+      isColorVerified: finalData.isColorVerified ? "true" : "false",
+      redirect: false,
+    });
+
+    if (res?.error) {
+      toast.error(res.error);
+      setLoading(false);
+      // যদি সিকিউরিটি ফেল করে তবে একদম শুরুতে পাঠিয়ে দেওয়া নিরাপদ
+      if(res.error.includes("SECURITY")) setStep("credentials");
+    } else {
+      toast.success("Identity Verified. Accessing Hangar...");
+      setTimeout(() => router.push("/dashboard"), 1500);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0f1a] px-4">
-      <Toaster position="top-center" reverseOrder={false} />
-      
-      <div className="w-full max-w-md bg-slate-900/50 border border-slate-800 p-8 rounded-[2rem] shadow-2xl backdrop-blur-xl">
-        <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-yellow-500/20">
-            <span className="text-2xl">🚁</span>
-          </div>
-          <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter">
-            Foring <span className="text-yellow-500 font-mono italic">B2B</span>
-          </h2>
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Mission Control Login</p>
-        </div>
+    <div className="relative min-h-screen w-full flex items-center justify-center bg-[#020202] font-mono text-white">
+      <Toaster position="top-right" />
+      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 ml-1">Email Terminal</label>
-            <input
-              type="email"
-              placeholder="admin@foring.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-black/50 border border-slate-800 p-4 rounded-xl text-white focus:border-yellow-500 outline-none transition-all placeholder:text-slate-700 font-mono"
-              required
+      <div className="relative z-10 w-full max-w-[420px] px-6">
+        <div className="bg-[#0a0a0a] border border-white/5 p-10 rounded-[2.5rem] shadow-2xl">
+          <div className="flex flex-col items-center mb-10"><Logo /></div>
+
+          {step === "credentials" && (
+            <form onSubmit={handlePreCheck} className="space-y-4">
+              <input 
+                type="email" placeholder="OPERATOR_ID" 
+                className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-center outline-none focus:border-yellow-500/40"
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                required
+              />
+              <input 
+                type="password" placeholder="SECURITY_KEY" 
+                className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-center outline-none focus:border-yellow-500/40 tracking-widest"
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                required
+              />
+              <button className="w-full py-4 bg-yellow-500 text-black font-black uppercase italic rounded-xl">
+                {loading ? "SEARCHING..." : "INITIALIZE"}
+              </button>
+            </form>
+          )}
+
+          {step === "2fa" && (
+            <form onSubmit={handleOTPVerify} className="space-y-6">
+              <p className="text-[10px] text-center text-white/40">ENTER 6-DIGIT AUTH CODE</p>
+              <input 
+                type="text" maxLength="6" placeholder="0 0 0 0 0 0" 
+                className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-xl text-center font-black tracking-[0.5em] outline-none"
+                value={otp} onChange={(e) => setOtp(e.target.value)} required
+              />
+              <button className="w-full py-4 bg-blue-600 text-white font-black uppercase italic rounded-xl">
+                CONTINUE
+              </button>
+            </form>
+          )}
+
+          {step === "color_grid" && (
+            <ColorGridSecurity 
+              // এখানে sequence রিসিভ করে স্টেটে রাখা হচ্ছে
+              onSuccess={(sequence) => {
+                setColorSequence(sequence);
+                setStep("master_key");
+              }}
+              onFail={() => {
+                toast.error("Security Breach: Sequence Invalid");
+                setStep("credentials");
+              }}
             />
-          </div>
+          )}
 
-          <div>
-            <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 ml-1">Access Key</label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-black/50 border border-slate-800 p-4 rounded-xl text-white focus:border-yellow-500 outline-none transition-all placeholder:text-slate-700 font-mono"
-              required
+          {step === "master_key" && (
+            <MasterKeyModal
+              onConfirm={(key) => completeAuth({ isColorVerified: true, masterKey: key })}
+              onFail={() => setStep("credentials")} // টাইম আউট হলে ব্যাক করবে
             />
-          </div>
+          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-4 rounded-xl font-black tracking-widest uppercase transition-all shadow-xl ${
-              loading 
-              ? "bg-slate-800 text-slate-600 cursor-not-allowed" 
-              : "bg-yellow-500 hover:bg-yellow-400 text-black shadow-yellow-500/10 active:scale-[0.98]"
-            }`}
-          >
-            {loading ? "Processing..." : "Initiate Login"}
-          </button>
-        </form>
-
-        <div className="mt-8 text-center">
-          <p className="text-slate-600 text-[10px] uppercase font-bold tracking-widest">
-            Don't have an account? <span onClick={() => router.push('/register')} className="text-yellow-500 cursor-pointer hover:underline underline-offset-4">Register Base</span>
-          </p>
         </div>
       </div>
     </div>

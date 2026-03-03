@@ -1,53 +1,71 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase"; // তোর আগে বানানো Firebase Client config
+import clientPromise from "@/lib/mongodb";
+import bcrypt from "bcryptjs";
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
+      name: "Terminal Access",
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password are required");
+        // ১. সরাসরি MongoDB কানেকশন
+        const client = await clientPromise;
+        const db = client.db("foring_uav");
+
+        // ২. ইউজার খুঁজে বের করা
+        const user = await db.collection("users").findOne({ email: credentials.email });
+        if (!user) {
+          throw new Error("ACCESS_DENIED: OPERATOR_NOT_FOUND");
         }
 
-        try {
-          // ১. Firebase Client SDK দিয়ে লগইন চেক
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            credentials.email,
-            credentials.password
-          );
+        // ৩. পাসওয়ার্ড ভেরিফিকেশন
+        const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+        if (!isPasswordCorrect) {
+          throw new Error("ACCESS_DENIED: INVALID_KEY");
+        }
+
+        // ৪. OTP চেক (সবার জন্য)
+        const currentTime = new Date();
+        if (credentials.otp !== user.currentOtp) {
+          throw new Error("AUTH_FAIL: INVALID_2FA");
+        }
+        if (currentTime > user.otpExpires) {
+          throw new Error("AUTH_FAIL: CODE_EXPIRED");
+        }
+
+        // ৫. এডমিনদের জন্য স্পেশাল সিকিউরিটি লেয়ার (Color + Master Key)
+       if (user.role === "admin") {
           
-          const user = userCredential.user;
-
-          if (user) {
-            // ২. রোল ডিফাইন করা (আপাতত ইমেইল দিয়ে চেক করছি, তুই পরে Firestore থেকে ডাটা আনতে পারবি)
-            const role = user.email.includes("admin") ? "admin" : "agent";
-
-            return {
-              id: user.uid,
-              email: user.email,
-              name: user.displayName || user.email.split("@")[0],
-              role: role,
-            };
+          // ক) কালার সিকোয়েন্স ভেরিফিকেশন (Blind Validation)
+          const SERVER_COLOR_SEQUENCE = process.env.NEXT_PUBLIC_COLOR_SEQUENCE; // .env থেকে সঠিক সিকোয়েন্স নিচ্ছি
+          
+          if (credentials.colorSequence !== SERVER_COLOR_SEQUENCE) {
+            throw new Error("SECURITY_ALERT: COLOR_PATTERN_MISMATCH");
           }
-          return null;
-        } catch (error) {
-          // Firebase-এর এরর মেসেজ হ্যান্ডলিং
-          console.error("Auth Error:", error.message);
-          throw new Error(error.message);
+
+          // খ) মাস্টার কি চেক (সরাসরি .env থেকে)
+          const ENV_MASTER_KEY = process.env.MASTER_SECURITY_KEY;
+          if (credentials.masterKey !== ENV_MASTER_KEY) {
+            throw new Error("TERMINAL_LOCKED: MASTER_KEY_MISMATCH");
+          }
         }
+        // ৬. সফল হলে ডাটাবেস থেকে ওটিপি ক্লিন করা (One-time use security)
+        await db.collection("users").updateOne(
+          { _id: user._id },
+          { $set: { currentOtp: null, otpExpires: null } }
+        );
+
+        // ৭. সেশন ডাটা রিটার্ন
+        return { 
+          id: user._id.toString(), 
+          email: user.email, 
+          role: user.role, 
+          name: user.name 
+        };
       },
     }),
   ],
   callbacks: {
-    // JWT টোকেনে রোল ঢুকানো
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
@@ -55,7 +73,6 @@ export const authOptions = {
       }
       return token;
     },
-    // সেশনে রোল পাস করা যাতে client-side এ useSession() দিয়ে পাওয়া যায়
     async session({ session, token }) {
       if (session.user) {
         session.user.role = token.role;
@@ -65,14 +82,10 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/login", // তোর কাস্টম লগইন পেজ পাথ
-  },
-  session: {
-    strategy: "jwt", // সেশন ম্যানেজমেন্টের জন্য JWT ব্যবহার করছি
+    signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
