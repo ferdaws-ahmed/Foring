@@ -1,0 +1,576 @@
+[
+  {
+    "id": "d001",
+    "name": "Ghorer Bazar",
+    "role": "ghorerbazar",
+    "phone": "01711000222",
+    "businessName": "Ghorer Bazar Ltd",
+    "ib": "#001",
+    "addresses": {
+      "pickup": "71 Riverside, Mirpur 10, Dhaka",
+      "warehousing": "16 Dockside, Savar, Dhaka"
+    },
+    "nid": "1023456701",
+    "imei": "3549210811223301",
+    "image": "https://i.pravatar.cc/150?u=1",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-101", "dr": "DR-5", "status": "Success", "time": "3m ago" },
+      { "id": "D-99", "dr": "DR-5", "status": "Success", "time": "1d ago" }
+    ]
+  },
+  {
+    "id": "d002",
+    "name": "Redex Logistics",
+    "role": "redex",
+    "phone": "01822334455",
+    "businessName": "Redex Express Ltd",
+    "ib": "#002",
+    "addresses": {
+      "pickup": "Plot 12, Road 5, Dhanmondi",
+      "warehousing": "Industrial Area, Gazipur"
+    },
+    "nid": "1023456702",
+    "imei": "3549210811223302",
+    "image": "https://i.pravatar.cc/150?u=2",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-102", "dr": "DR-1", "status": "Success", "time": "10m ago" },
+      { "id": "D-88", "dr": "DR-2", "status": "Success", "time": "2d ago" }
+    ]
+  },
+  {
+    "id": "d003",
+    "name": "FoodPanda Unit",
+    "role": "foodpanda",
+    "phone": "01911998877",
+    "businessName": "FP Delivery Hub",
+    "ib": "#003",
+    "addresses": {
+      "pickup": "Banani 11, Dhaka",
+      "warehousing": "Sector 4, Uttara"
+    },
+    "nid": "1023456703",
+    "imei": "3549210811223303",
+    "image": "https://i.pravatar.cc/150?u=3",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-105", "dr": "DR-9", "status": "In Transit", "time": "5m ago" }
+    ]
+  },
+  {
+    "id": "d004",
+    "name": "Chaldal Express",
+    "role": "chaldal",
+    "phone": "01511223344",
+    "businessName": "Chaldal Grocery Ltd",
+    "ib": "#004",
+    "addresses": {
+      "pickup": "Tejgaon Industrial Area",
+      "warehousing": "Hemayetpur, Savar"
+    },
+    "nid": "1023456704",
+    "imei": "3549210811223304",
+    "image": "https://i.pravatar.cc/150?u=4",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-201", "dr": "DR-3", "status": "Success", "time": "1h ago" },
+      { "id": "D-202", "dr": "DR-3", "status": "Success", "time": "5h ago" }
+    ]
+  },
+  {
+    "id": "d005",
+    "name": "Steadfast BD",
+    "role": "steadfast",
+    "phone": "01311556677",
+    "businessName": "Steadfast Courier",
+    "ib": "#005",
+    "addresses": {
+      "pickup": "Arambagh, Motijheel",
+      "warehousing": "Narayanganj BSCIC"
+    },
+    "nid": "1023456705",
+    "imei": "3549210811223305",
+    "image": "https://i.pravatar.cc/150?u=5",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-305", "dr": "DR-7", "status": "Success", "time": "12m ago" }
+    ]
+  },
+  {
+    "id": "d006",
+    "name": "Pathao Food",
+    "role": "pathao",
+    "phone": "01788776655",
+    "businessName": "Pathao Ltd",
+    "ib": "#006",
+    "addresses": {
+      "pickup": "Gulshan 1, Dhaka",
+      "warehousing": "Badda Link Road"
+    },
+    "nid": "1023456706",
+    "imei": "3549210811223306",
+    "image": "https://i.pravatar.cc/150?u=6",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-400", "dr": "DR-4", "status": "Failed", "time": "2d ago" }
+    ]
+  },
+  {
+    "id": "d007",
+    "name": "Daraz Hub",
+    "role": "daraz",
+    "phone": "01611224466",
+    "businessName": "Daraz Bangladesh",
+    "ib": "#007",
+    "addresses": {
+      "pickup": "Tejgaon Gulshan Link Rd",
+      "warehousing": "Tongir Bazar, Gazipur"
+    },
+    "nid": "1023456707",
+    "imei": "3549210811223307",
+    "image": "https://i.pravatar.cc/150?u=7",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-707", "dr": "DR-8", "status": "Success", "time": "30m ago" },
+      { "id": "D-708", "dr": "DR-8", "status": "Success", "time": "1h ago" }
+    ]
+  },
+  {
+    "id": "d008",
+    "name": "Ajker Deal",
+    "role": "ajkerdeal",
+    "phone": "01712345678",
+    "businessName": "AjkerDeal Operations",
+    "ib": "#008",
+    "addresses": {
+      "pickup": "Karwan Bazar, Dhaka",
+      "warehousing": "Ashulia, Savar"
+    },
+    "nid": "1023456708",
+    "imei": "3549210811223308",
+    "image": "https://i.pravatar.cc/150?u=8",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-808", "dr": "DR-2", "status": "Success", "time": "15m ago" }
+    ]
+  },
+  {
+    "id": "d009",
+    "name": "Paperfly Ltd",
+    "role": "paperfly",
+    "phone": "01811992233",
+    "businessName": "Paperfly Delivery",
+    "ib": "#009",
+    "addresses": {
+      "pickup": "Mohakhali DOHS",
+      "warehousing": "Paltan, Dhaka"
+    },
+    "nid": "1023456709",
+    "imei": "3549210811223309",
+    "image": "https://i.pravatar.cc/150?u=9",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-909", "dr": "DR-6", "status": "Success", "time": "4h ago" }
+    ]
+  },
+  {
+    "id": "d010",
+    "name": "Pickaboo Tech",
+    "role": "pickaboo",
+    "phone": "01999888777",
+    "businessName": "Pickaboo Services",
+    "ib": "#010",
+    "addresses": {
+      "pickup": "Bashundhara R/A",
+      "warehousing": "Purbachal Zone"
+    },
+    "nid": "1023456710",
+    "imei": "3549210811223310",
+    "image": "https://i.pravatar.cc/150?u=10",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-111", "dr": "DR-1", "status": "Success", "time": "2m ago" }
+    ]
+  },
+  {
+    "id": "d011",
+    "name": "E-Desh",
+    "role": "edesh",
+    "phone": "01555444333",
+    "businessName": "E-Desh Courier",
+    "ib": "#011",
+    "addresses": {
+      "pickup": "Elephant Road, Dhaka",
+      "warehousing": "Keraniganj Industrial"
+    },
+    "nid": "1023456711",
+    "imei": "3549210811223311",
+    "image": "https://i.pravatar.cc/150?u=11",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-222", "dr": "DR-3", "status": "Success", "time": "1w ago" }
+    ]
+  },
+  {
+    "id": "d012",
+    "name": "Panda Mart",
+    "role": "pandamart",
+    "phone": "01700112233",
+    "businessName": "FoodPanda Grocery",
+    "ib": "#012",
+    "addresses": {
+      "pickup": "Malibagh, Dhaka",
+      "warehousing": "Rampura Hub"
+    },
+    "nid": "1023456712",
+    "imei": "3549210811223312",
+    "image": "https://i.pravatar.cc/150?u=12",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-333", "dr": "DR-4", "status": "Success", "time": "45m ago" }
+    ]
+  },
+  {
+    "id": "d013",
+    "name": "Shwapno Online",
+    "role": "shwapno",
+    "phone": "01822446688",
+    "businessName": "ACI Logistics Ltd",
+    "ib": "#013",
+    "addresses": {
+      "pickup": "Savar EPZ",
+      "warehousing": "Gazipur Hub"
+    },
+    "nid": "1023456713",
+    "imei": "3549210811223313",
+    "image": "https://i.pravatar.cc/150?u=13",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-444", "dr": "DR-5", "status": "Success", "time": "1d ago" }
+    ]
+  },
+  {
+    "id": "d014",
+    "name": "Othoba.com",
+    "role": "othoba",
+    "phone": "01300998877",
+    "businessName": "PRAN-RFL Group",
+    "ib": "#014",
+    "addresses": {
+      "pickup": "Pran-RFL Center, Dhaka",
+      "warehousing": "Habiganj Hub"
+    },
+    "nid": "1023456714",
+    "imei": "3549210811223314",
+    "image": "https://i.pravatar.cc/150?u=14",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-555", "dr": "DR-6", "status": "Failed", "time": "3h ago" }
+    ]
+  },
+  {
+    "id": "d015",
+    "name": "PriyoShop Hub",
+    "role": "priyoshop",
+    "phone": "01755112233",
+    "businessName": "PriyoShop BD",
+    "ib": "#015",
+    "addresses": {
+      "pickup": "Farmgate, Dhaka",
+      "warehousing": "Mohammadpur Zone"
+    },
+    "nid": "1023456715",
+    "imei": "3549210811223315",
+    "image": "https://i.pravatar.cc/150?u=15",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-666", "dr": "DR-7", "status": "Success", "time": "20m ago" }
+    ]
+  },
+  {
+    "id": "d016",
+    "name": "Meena Click",
+    "role": "meenaclick",
+    "phone": "01866332211",
+    "businessName": "Meena Bazar Ltd",
+    "ib": "#016",
+    "addresses": {
+      "pickup": "Lalmatia, Dhaka",
+      "warehousing": "Shyamoli Hub"
+    },
+    "nid": "1023456716",
+    "imei": "3549210811223316",
+    "image": "https://i.pravatar.cc/150?u=16",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-777", "dr": "DR-8", "status": "Success", "time": "5m ago" }
+    ]
+  },
+  {
+    "id": "d017",
+    "name": "Rokomari Hub",
+    "role": "rokomari",
+    "phone": "01577119922",
+    "businessName": "Onnorokom Group",
+    "ib": "#017",
+    "addresses": {
+      "pickup": "Motijheel, Dhaka",
+      "warehousing": "Nilkhet Zone"
+    },
+    "nid": "1023456717",
+    "imei": "3549210811223317",
+    "image": "https://i.pravatar.cc/150?u=17",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-888", "dr": "DR-1", "status": "Success", "time": "2h ago" }
+    ]
+  },
+  {
+    "id": "d018",
+    "name": "Sindabad BD",
+    "role": "sindabad",
+    "phone": "01722998811",
+    "businessName": "Sindabad Solutions",
+    "ib": "#018",
+    "addresses": {
+      "pickup": "Nikunja 2, Dhaka",
+      "warehousing": "Airport Hub"
+    },
+    "nid": "1023456718",
+    "imei": "3549210811223318",
+    "image": "https://i.pravatar.cc/150?u=18",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-999", "dr": "DR-2", "status": "Success", "time": "12m ago" }
+    ]
+  },
+  {
+    "id": "d019",
+    "name": "Bikroy Mart",
+    "role": "bikroy",
+    "phone": "01944556677",
+    "businessName": "Bikroy.com Ltd",
+    "ib": "#019",
+    "addresses": {
+      "pickup": "Panthapath, Dhaka",
+      "warehousing": "Green Road Zone"
+    },
+    "nid": "1023456719",
+    "imei": "3549210811223319",
+    "image": "https://i.pravatar.cc/150?u=19",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-1010", "dr": "DR-3", "status": "Success", "time": "6h ago" }
+    ]
+  },
+  {
+    "id": "d020",
+    "name": "Expert Delivery",
+    "role": "expert",
+    "phone": "01311002233",
+    "businessName": "Expert Courier",
+    "ib": "#020",
+    "addresses": {
+      "pickup": "Kalyanpur, Dhaka",
+      "warehousing": "Gabtoli Terminal"
+    },
+    "nid": "1023456720",
+    "imei": "3549210811223320",
+    "image": "https://i.pravatar.cc/150?u=20",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-2020", "dr": "DR-4", "status": "Success", "time": "18m ago" }
+    ]
+  },
+  {
+    "id": "d021",
+    "name": "Green Grocery",
+    "role": "greengrocery",
+    "phone": "01788112233",
+    "businessName": "Green Mart BD",
+    "ib": "#021",
+    "addresses": {
+      "pickup": "Hazaribagh, Dhaka",
+      "warehousing": "Zigatola Zone"
+    },
+    "nid": "1023456721",
+    "imei": "3549210811223321",
+    "image": "https://i.pravatar.cc/150?u=21",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-3030", "dr": "DR-5", "status": "Success", "time": "22m ago" }
+    ]
+  },
+  {
+    "id": "d022",
+    "name": "Rapid Courier",
+    "role": "rapid",
+    "phone": "01855667788",
+    "businessName": "Rapid Express",
+    "ib": "#022",
+    "addresses": {
+      "pickup": "Siddheswari, Dhaka",
+      "warehousing": "Moghbazar Hub"
+    },
+    "nid": "1023456722",
+    "imei": "3549210811223322",
+    "image": "https://i.pravatar.cc/150?u=22",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-4040", "dr": "DR-6", "status": "In Transit", "time": "40m ago" }
+    ]
+  },
+  {
+    "id": "d023",
+    "name": "Urban Mart",
+    "role": "urbanmart",
+    "phone": "01922334499",
+    "businessName": "Urban Shopping",
+    "ib": "#023",
+    "addresses": {
+      "pickup": "Wari, Old Dhaka",
+      "warehousing": "Sadarghat Zone"
+    },
+    "nid": "1023456723",
+    "imei": "3549210811223323",
+    "image": "https://i.pravatar.cc/150?u=23",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-5050", "dr": "DR-7", "status": "Success", "time": "1h ago" }
+    ]
+  },
+  {
+    "id": "d024",
+    "name": "Swift Logistics",
+    "role": "swift",
+    "phone": "01344112233",
+    "businessName": "Swift BD Ltd",
+    "ib": "#024",
+    "addresses": {
+      "pickup": "Khilgaon, Dhaka",
+      "warehousing": "Basabo Hub"
+    },
+    "nid": "1023456724",
+    "imei": "3549210811223324",
+    "image": "https://i.pravatar.cc/150?u=24",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-6060", "dr": "DR-8", "status": "Success", "time": "50m ago" }
+    ]
+  },
+  {
+    "id": "d025",
+    "name": "Metro Mart",
+    "role": "metromart",
+    "phone": "01733669988",
+    "businessName": "Metro Express",
+    "ib": "#025",
+    "addresses": {
+      "pickup": "Jatrabari, Dhaka",
+      "warehousing": "Demra Zone"
+    },
+    "nid": "1023456725",
+    "imei": "3549210811223325",
+    "image": "https://i.pravatar.cc/150?u=25",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-7070", "dr": "DR-9", "status": "Success", "time": "2d ago" }
+    ]
+  },
+  {
+    "id": "d026",
+    "name": "E-Hub Logistics",
+    "role": "ehub",
+    "phone": "01822778899",
+    "businessName": "E-Hub Solutions",
+    "ib": "#026",
+    "addresses": {
+      "pickup": "Shantinagar, Dhaka",
+      "warehousing": "Kakrail Hub"
+    },
+    "nid": "1023456726",
+    "imei": "3549210811223326",
+    "image": "https://i.pravatar.cc/150?u=26",
+    "nidStatus": "Pending",
+    "deliveryHistory": [
+      { "id": "D-8080", "dr": "DR-1", "status": "Failed", "time": "30m ago" }
+    ]
+  },
+  {
+    "id": "d027",
+    "name": "Blue Dart BD",
+    "role": "bluedart",
+    "phone": "01955441122",
+    "businessName": "Blue Dart Express",
+    "ib": "#027",
+    "addresses": {
+      "pickup": "Baitul Mukarram Area",
+      "warehousing": "Paltan Zone"
+    },
+    "nid": "1023456727",
+    "imei": "3549210811223327",
+    "image": "https://i.pravatar.cc/150?u=27",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-9090", "dr": "DR-2", "status": "Success", "time": "15m ago" }
+    ]
+  },
+  {
+    "id": "d028",
+    "name": "Click & Collect",
+    "role": "clickcollect",
+    "phone": "01377441100",
+    "businessName": "C&C Services",
+    "ib": "#028",
+    "addresses": {
+      "pickup": "Adabor, Dhaka",
+      "warehousing": "Shekertek Zone"
+    },
+    "nid": "1023456728",
+    "imei": "3549210811223328",
+    "image": "https://i.pravatar.cc/150?u=28",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-1212", "dr": "DR-3", "status": "Success", "time": "10m ago" }
+    ]
+  },
+  {
+    "id": "d029",
+    "name": "Smart Parcel",
+    "role": "smartparcel",
+    "phone": "01700998811",
+    "businessName": "Smart Courier",
+    "ib": "#029",
+    "addresses": {
+      "pickup": "Niketan, Dhaka",
+      "warehousing": "Tejgaon Hub"
+    },
+    "nid": "1023456729",
+    "imei": "3549210811223329",
+    "image": "https://i.pravatar.cc/150?u=29",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-1313", "dr": "DR-4", "status": "Success", "time": "3m ago" }
+    ]
+  },
+  {
+    "id": "d030",
+    "name": "Final Mile",
+    "role": "finalmile",
+    "phone": "01811559900",
+    "businessName": "Final Mile Logistics",
+    "ib": "#030",
+    "addresses": {
+      "pickup": "Mirpur DOHS",
+      "warehousing": "Pallabi Zone"
+    },
+    "nid": "1023456730",
+    "imei": "3549210811223330",
+    "image": "https://i.pravatar.cc/150?u=30",
+    "nidStatus": "Verified",
+    "deliveryHistory": [
+      { "id": "D-1414", "dr": "DR-5", "status": "Success", "time": "Now" }
+    ]
+  }
+]

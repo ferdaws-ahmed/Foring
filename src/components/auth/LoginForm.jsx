@@ -13,9 +13,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [otp, setOtp] = useState("");
-  const [colorSequence, setColorSequence] = useState(""); // নতুন স্টেট: কালার আইডিগুলো রাখার জন্য
+  const [colorSequence, setColorSequence] = useState(""); 
   const router = useRouter();
 
+  // ১. প্রি-চেক লজিক আপডেট
   const handlePreCheck = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -29,8 +30,16 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.message || "Unknown Operator");
 
       setRole(data.role);
-      setStep("2fa"); 
-      toast.success(`Access Code Sent to ${data.role.toUpperCase()} Email`);
+
+      // কন্ডিশন: শুধুমাত্র রোল 'admin' হলে সিকিউরিটি লেয়ার শুরু হবে
+      if (data.role === "admin") {
+        setStep("2fa");
+        toast.success(`Access Code Sent to Admin Email`);
+      } else {
+        // রোল যদি 'agency' বা অন্য কিছু হয়, তবে সরাসরি লগইন সম্পন্ন হবে
+        toast.success(`Welcome, ${data.role.toUpperCase()}. Initializing Dashboard...`);
+        completeAuth({ role: data.role });
+      }
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -38,12 +47,14 @@ export default function LoginPage() {
     }
   };
 
+  // ২. OTP ভেরিফিকেশন (এটি শুধু এডমিনের জন্যই আসবে)
   const handleOTPVerify = async (e) => {
     e.preventDefault();
     if (role === "admin") {
       setStep("color_grid"); 
     } else {
-      completeAuth(); 
+      // এটি মূলত ট্রিগার হবে না কারণ এজেন্সি সরাসরি লগইন হয়ে যাচ্ছে, তাও নিরাপত্তার জন্য রাখা
+      completeAuth({ role }); 
     }
   };
 
@@ -51,9 +62,8 @@ export default function LoginPage() {
     setLoading(true);
     const res = await signIn("credentials", {
       ...formData,
-      otp,
-      // কালার সিকোয়েন্স এবং মাস্টার কি দুটোই ব্যাকএন্ডে পাঠানো হচ্ছে
-      colorSequence: colorSequence || "", 
+      otp: otp || "",
+      colorSequence: colorSequence || "",
       masterKey: finalData.masterKey || "",
       isColorVerified: finalData.isColorVerified ? "true" : "false",
       redirect: false,
@@ -62,11 +72,19 @@ export default function LoginPage() {
     if (res?.error) {
       toast.error(res.error);
       setLoading(false);
-      // যদি সিকিউরিটি ফেল করে তবে একদম শুরুতে পাঠিয়ে দেওয়া নিরাপদ
-      if(res.error.includes("SECURITY")) setStep("credentials");
     } else {
-      toast.success("Identity Verified. Accessing Hangar...");
-      setTimeout(() => router.push("/dashboard"), 1500);
+      toast.success("Identity Verified. Accessing Terminal...");
+
+      setTimeout(() => {
+        // ডাইনামিক রাউটিং: ডাটাবেজের রোল অনুযায়ী রিডাইরেক্ট হবে
+        const userRole = finalData.role || role; 
+        
+        if (userRole) {
+          window.location.href = `/dashboard/${userRole}`;
+        } else {
+          window.location.href = "/dashboard";
+        }
+      }, 1500);
     }
   };
 
@@ -79,6 +97,7 @@ export default function LoginPage() {
         <div className="bg-[#0a0a0a] border border-white/5 p-10 rounded-[2.5rem] shadow-2xl">
           <div className="flex flex-col items-center mb-10"><Logo /></div>
 
+          {/* স্টেপ ১: ইউজারনেম ও পাসওয়ার্ড */}
           {step === "credentials" && (
             <form onSubmit={handlePreCheck} className="space-y-4">
               <input 
@@ -93,29 +112,30 @@ export default function LoginPage() {
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
                 required
               />
-              <button className="w-full py-4 bg-yellow-500 text-black font-black uppercase italic rounded-xl">
-                {loading ? "SEARCHING..." : "INITIALIZE"}
+              <button disabled={loading} className="w-full py-4 bg-yellow-500 text-black font-black uppercase italic rounded-xl disabled:opacity-50">
+                {loading ? "INITIALIZING..." : "INITIALIZE"}
               </button>
             </form>
           )}
 
+          {/* স্টেপ ২: OTP (শুধুমাত্র এডমিনের জন্য) */}
           {step === "2fa" && (
             <form onSubmit={handleOTPVerify} className="space-y-6">
-              <p className="text-[10px] text-center text-white/40">ENTER 6-DIGIT AUTH CODE</p>
+              <p className="text-[10px] text-center text-white/40 uppercase tracking-widest">Master Admin Auth Required</p>
               <input 
                 type="text" maxLength="6" placeholder="0 0 0 0 0 0" 
                 className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-xl text-center font-black tracking-[0.5em] outline-none"
                 value={otp} onChange={(e) => setOtp(e.target.value)} required
               />
               <button className="w-full py-4 bg-blue-600 text-white font-black uppercase italic rounded-xl">
-                CONTINUE
+                VERIFY_CODE
               </button>
             </form>
           )}
 
+          {/* স্টেপ ৩: কালার সিকিউরিটি (শুধুমাত্র এডমিনের জন্য) */}
           {step === "color_grid" && (
             <ColorGridSecurity 
-              // এখানে sequence রিসিভ করে স্টেটে রাখা হচ্ছে
               onSuccess={(sequence) => {
                 setColorSequence(sequence);
                 setStep("master_key");
@@ -127,10 +147,11 @@ export default function LoginPage() {
             />
           )}
 
+          {/* স্টেপ ৪: মাস্টার কি (শুধুমাত্র এডমিনের জন্য) */}
           {step === "master_key" && (
             <MasterKeyModal
-              onConfirm={(key) => completeAuth({ isColorVerified: true, masterKey: key })}
-              onFail={() => setStep("credentials")} // টাইম আউট হলে ব্যাক করবে
+              onConfirm={(key) => completeAuth({ isColorVerified: true, masterKey: key, role: "admin" })}
+              onFail={() => setStep("credentials")} 
             />
           )}
 

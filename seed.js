@@ -16,9 +16,9 @@ async function createAdmin() {
     const passwordHash = await bcrypt.hash("asdfGG", 12);
 
     const newUser = {
-      email: "nmhasan.33@gmail.com", // তোর নিজের ইমেইল দিস ওটিপি টেস্টের জন্য
+      email: "foodpanda@foring.com", // তোর নিজের ইমেইল দিস ওটিপি টেস্টের জন্য
       password: passwordHash,
-      role: "admin",
+      role: "foodpanda",
       currentOtp: null,
       otpExpires: null,
       createdAt: new Date(),
